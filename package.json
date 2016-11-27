@@ -1,0 +1,35 @@
+{
+  "name": "elchandaar-character-sheet",
+  "version": "0.0.0",
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "webpack -d",
+    "test": "webpack-dev-server --devtool eval --progress --colors --content-base html --port 8089",
+    "build": "webpack -p",
+    "deploy": "cp html/* build/.; scp build/* istrian@vps196831.ovh.net:/var/www/html/elchandaar/character-sheet/."
+  },
+  "author": "Istrian",
+  "license": "CC-BY-NC-4.0",
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.8",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "core-js": "*",
+    "css-loader": "git://github.com/webpack/css-loader.git#master",
+    "file-loader": "*",
+    "filereader-stream": "*",
+    "flux": "*",
+    "jsx-loader": "git://github.com/petehunt/jsx-loader.git#master",
+    "node-uuid": "*",
+    "normalize.css": "git://github.com/necolas/normalize.css.git#master",
+    "react": "*",
+    "react-dom": "^15.4.1",
+    "style-loader": "git://github.com/webpack/style-loader.git#master",
+    "url-loader": "git://github.com/webpack/url-loader.git#master",
+    "webpack": "^1.13.3"
+  },
+  "dependencies": {},
+  "description": ""
+}
