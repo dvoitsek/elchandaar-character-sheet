@@ -5,6 +5,8 @@ import React from 'react';
 import CharacterBasics from './components/CharacterBasics';
 import Traits from './components/Traits';
 import Skills from './components/Skills';
+import Credos from './components/Credos';
+import Backgrounds from './components/Backgrounds';
 
 class CharacterSheet extends React.Component {
   constructor(props) {
@@ -41,31 +43,12 @@ class CharacterSheet extends React.Component {
           <CharacterBasics data={this.state.character.basics} />
           <Traits data={this.state.character.traits} />
           <Skills data={this.state.character.skills} />
-          <div style={this.credosStyle}>
-            {this.state.character.credos.map(function(credo, idx) {
-              return <div key={idx}>
-                <div>{credo.name}</div>
-                <div>{credo.rank}</div>
-                <div>{credo.points}</div>
-              </div>
-            })}</div>
+          <Credos data={this.state.character.credos} />
             <div style={this.fateStyle}>
               {this.state.character.fate.spent} / {this.state.character.fate.max}
             </div>
-            <div style={this.backgroundsStyle}>
-              {this.state.character.backgrounds.map(function(bak, idx) {
-                return <div key={idx}>
-                  <div>{bak.name}</div>
-                  <div>{bak.description}</div>
-                </div>
-              })}
-            </div>
-            <div style={this.healthStyle}>
-              <div>Health</div>
-              <div>Wounds</div>
-              {this.generateWoundBoxes()}
-              <div>Injuries</div>
-            </div>
+          <Backgrounds data={this.state.character.backgrounds} />
+          <Wounds data={this.state.character.wounds} />
             <div style={this.defenseStyle}></div>
             <div style={this.protectionStyle}></div>
             <div style={this.offenseStyle}></div>
