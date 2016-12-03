@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import Credo from './Credo';
+
 class Credos extends React.Component {
   constructor(props) {
     super(props);
@@ -10,20 +12,20 @@ class Credos extends React.Component {
       display: 'flex',
       flexDirection: 'column'
     };
+
   }
 
   render(){
     return(
       <div className='ui segment container' style={this.credosStyle}>
+        <div className='ui three column grid'>
         {this.props.data.map(function(credo, idx) {
           return (
-            <div className='ui segment' key={idx}>
-              <div>{credo.name}</div>
-              <div>{credo.rank}</div>
-              <div>{credo.points}</div>
-            </div>
+            <Credo data={credo} key={idx} />
+
           )
         })}
+      </div>
       </div>
     );
   }

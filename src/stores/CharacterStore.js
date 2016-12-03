@@ -8,93 +8,14 @@ import CharacterEvents from '../events/CharacterEvents';
 
 import Constants from '../constants/Constants';
 
+import sampleCharacter from '../data/SampleCharacter';
+import newCharacter from '../data/NewCharacter';
+
 class CharacterStore extends EventEmitter {
   constructor() {
     super();
 
-    this.character = {
-      basics: {
-        name: 'Nameless Protagonist',
-        player: 'Someone',
-        origins: 'West Carlenia, Noble',
-        birthYear: '600',
-        trade: 'Beggar',
-        hair: 'short black with wisps of gold',
-        eyes: 'mostly green',
-        firstImpression: 'bored',
-        lastingImpression: 'bland',
-        hiddenSide: 'manipulative'
-      },
-      traits: {
-        stamina: 3,
-        dexterity: 2,
-        perception: 1,
-        strength: 2,
-        willpower: 6,
-        appearance: 3,
-        empathy: 1,
-        wits: 3
-      },
-      skills: {
-        general: {
-          alertness: 0,
-          animalRiding: 1,
-          animalHandling: 2,
-          athletics: 3,
-          deceit: 4,
-          divination: 5,
-          etiquette: 6,
-          forgery: 7,
-          hunting: 8,
-          instruction: 9,
-          interaction: 10,
-          investigate: 11,
-          medicine: 12,
-          meditation: 13,
-          prestidigitation: 14,
-          stealth: 15,
-          symbolism: 16,
-          tactics: 17,
-          universalism: 18
-        },
-        specialist: [{name: 'Geography', rank: 1}, {name: 'History', rank: 2}, {name: 'Streetwise', rank: 0}],
-        combat: [{name: 'Mystery Edge', mainHand: 'Broken Bottle', offHand: 'Empty', armor: 'Light', rank: '0'}]
-      },
-      backgrounds: [
-        {name: 'Nonexistence', description: "You do not exist, therefore you cannot be killed"}
-      ],
-      credos: [
-        { name: 'The plot is always right',
-          rank: 3,
-          points: 8
-        }
-      ],
-      fate: {
-        max: 9,
-        spent: 4
-      },
-      wounds: {
-        maxNoPenalty: 3,
-        maxPenalty: 2,
-        current: 14,
-        parts: {
-          head: 1,
-          torso: 0,
-          leftArm: 2,
-          rightArm: 3,
-          leftLeg: 0,
-          rightLeg: 1
-        }
-      },
-      offense: [],
-      defense: [],
-      ideals: [
-        {name: 'Does not exist yet', skills: {alertness: 0, combat: 1, geography: 0}, rank: 3, abilities: []},
-      ],
-      notes: [
-        "Well, these are various notes about the biography, etc"
-      ]
-    };
+    this.character = JSON.parse(JSON.stringify(sampleCharacter));
 
     AppDispatcher.register((action) => {
       switch(action.type) {
@@ -106,8 +27,158 @@ class CharacterStore extends EventEmitter {
     });
   }
 
+  clearCharacter() {
+    this.character = JSON.parse(JSON.stringify(newCharacter));
+  }
+
   getCharacter() {
     return JSON.parse(JSON.stringify(this.character));
+  }
+
+  setCharacter(character) {
+    this.character = character;
+  }
+
+  getBasics() {
+    return JSON.parse(JSON.stringify(this.character.basics));
+  }
+
+  getTraits() {
+    return JSON.parse(JSON.stringify(this.character.traits));
+  }
+
+  getSkills() {
+    return JSON.parse(JSON.stringify(this.character.skills));
+  }
+
+  getBackgrounds() {
+    return JSON.parse(JSON.stringify(this.character.backgrounds));
+  }
+
+  getCredos() {
+    return JSON.parse(JSON.stringify(this.character.credos));
+  }
+
+  getFate() {
+    return JSON.parse(JSON.stringify(this.character.fate));
+  }
+
+  getWounds() {
+    return JSON.parse(JSON.stringify(this.character.wounds));
+  }
+
+  setSimpleData(category, key, value) {
+    this.character[category][key] = value;
+  }
+
+  setGeneralSkill(skill, value) {
+    this.character.skills.general[skill] = value;
+  }
+
+  setSpecialistSkill(index, name, value) {
+    if(index > this.character.skills.specialist.length) {
+      this.character.skills.specialist.push({name: name, rank: value});
+    }
+    else {
+      this.character.skills.specialist[index].rank = value;
+    }
+  }
+
+  addCombatSkill(name, main, off, armor, value) {
+    this.character.skills.combat.push({
+      name: name,
+      mainHand: main,
+      offHand: off,
+      armor: armor,
+      rank: value
+    });
+  }
+
+  setCombatSkillRank(index, value) {
+    this.character.skills.combat[index].rank = value;
+  }
+
+  setBackgroundData(index, name, description) {
+    this.character.backgrounds[index] = {
+      name: name,
+      description: description
+    };
+  }
+
+  addBackgroundData(name, description) {
+    this.character.backgrounds.push({
+      name: name,
+      description: description
+    });
+  }
+
+  addCredo(name, rank, points) {
+    this.character.credos.push({
+      name: name,
+      rank: rank,
+      points: points
+    });
+  }
+
+  changeCredo(index, rank, points) {
+    if(rank || rank === 0) {
+      this.character.credos[index].rank = rank;
+    }
+    if(points || points === 0) {
+      this.character.credos[index].points = points;
+    }
+  }
+
+  setFate(max, spent) {
+    if(max) {
+      this.character.fate.max = max;
+    }
+    if(spent || spent === 0) {
+      this.character.fate.spent = spent;
+    }
+  }
+
+  setWounds(value) {
+    this.character.wounds.current = value;
+  }
+
+  setInjury(part, value) {
+    this.character.wounds.parts[part] = value;
+  }
+
+  setSimpleListData(category, index, text) {
+    if(this.character[category].length > index) {
+      this.character[category][index] = text;
+    }
+    else {
+      this.character[category].push(text);
+    }
+  }
+
+  setIdeal(index, name, skills, rank, abilities) {
+    if(this.character.ideals.length > index) {
+      var ideal = this.character.ideals[index];
+      if(name) {
+        ideal.name = name;
+      }
+      if(skills) {
+        ideal.skills = skills;
+      }
+      if(rank) {
+        ideal.rank = rank;
+      }
+      if(abilities) {
+        ideal.abilities = abilities;
+      }
+    }
+    else {
+      this.character.ideals.push({
+        name: name,
+        skills: skills,
+        rank: rank,
+        abilities: abilities
+      });
+    }
   }
 
   addCharacterChangeListener(callback) {

@@ -6,42 +6,115 @@ class Wounds extends React.Component {
   constructor(props) {
     super(props);
 
+    this.iconCellStyle = {
+      padding: '1px',
+      margin: 0
+    };
+
     var wounds = [];
+    var woundRow = [];
     for(var i = 0; i < 100; ++i) {
+      if(i>0 && i%10 === 0) {
+        wounds.push(woundRow);
+        woundRow = [];
+      }
       if(i < props.data.current) {
-        wounds.push(1);
+        woundRow.push(1);
       }
       else {
-        wounds.push(0);
+        woundRow.push(0);
       }
     }
+    wounds.push(woundRow);
 
     this.state = {
       wounds: wounds
     };
   }
 
-  buildBox(wound) {
-    return wound === 1? <i className='ui square icon'/> : <i className='ui circle icon'/>;
+  buildBox(wound, index) {
+    return <td key={index} style={this.iconCellStyle}>{wound === 1? <i className='ui plus square outline icon'/> : <i className='ui square outline icon'/>}</td>;
+  }
+
+  buildRow(wounds, index) {
+    let rowIndex = index+1;
+    let traits = this.props.charstore.getTraits();
+    let penalty = 0;
+    if(rowIndex > traits.stamina && rowIndex <= traits.stamina + traits.willpower) {
+      penalty = -5*(rowIndex - traits.stamina);
+    }
+    if(rowIndex > traits.stamina + traits.willpower) {
+      penalty = 'Out';
+    }
+    return(
+      <tr key={index}>
+        <td className='collapsing'>
+          {penalty}
+        </td>
+        {wounds.map(this.buildBox.bind(this))}
+      </tr>
+    );
+  }
+
+  buildInjury(injury) {
+    return(
+      <div>
+        <i className={'ui ' + (injury > 0? 'plus' : '') + ' square outline icon'}/>
+        <i className={'ui ' + (injury > 1? 'plus' : '') + ' square outline icon'}/>
+        <i className={'ui ' + (injury > 2? 'plus' : '') + ' square outline icon'}/>
+      </div>
+    );
   }
 
   render() {
     return(
       <div className='ui segment container'>
-        <div>
-          <div className='ui header'>
-            Wounds
+        <div className='ui stackable grid'>
+          <div className='sixteen wide column'>
+            Health
           </div>
-          {this.state.wounds.map(this.buildBox(wound))}
-        </div>
-        <div>
-          <div className='ui header'>Injuries</div>
-          <div>Head</div>
-          <div>Torso</div>
-          <div>Left Arm</div>
-          <div>Right Arm</div>
-          <div>Left Leg</div>
-          <div>Right Leg</div>
+          <div className='eight wide column'>
+            <table className='ui compact unstackable table'>
+              <thead>
+                <tr>
+                  <th>Penalty</th>
+                  <th colSpan='10'>Wounds</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.wounds.map(this.buildRow.bind(this))}
+              </tbody>
+            </table>
+          </div>
+          <div className='four wide column'>
+            <div>
+              <div className='ui header'>Injuries</div>
+              <div>
+                Head
+                {this.buildInjury(this.props.data.parts.head)}
+              </div>
+              <div>
+                Torso
+                {this.buildInjury(this.props.data.parts.torso)}
+              </div>
+              <div>
+                Left Arm
+                {this.buildInjury(this.props.data.parts.leftArm)}
+              </div>
+              <div>
+                Right Arm
+                {this.buildInjury(this.props.data.parts.rightArm)}
+              </div>
+              <div>
+                Left Leg
+                {this.buildInjury(this.props.data.parts.leftLeg)}
+              </div>
+              <div>
+                Right Leg
+                {this.buildInjury(this.props.data.parts.rightLeg)}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

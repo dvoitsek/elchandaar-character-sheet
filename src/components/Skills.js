@@ -19,7 +19,7 @@ class Skills extends React.Component {
 
   render() {
     return(
-      <div style={this.skillsStyle} className='ui grid segment'>
+      <div style={this.skillsStyle} className='ui stackable grid segment'>
         <div className='sixteen wide column'>
           <h4 className='ui centered header'>
             Skills

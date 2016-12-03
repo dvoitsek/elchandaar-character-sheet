@@ -6,7 +6,7 @@
     "dev": "webpack -d",
     "test": "webpack-dev-server --devtool eval --progress --colors --content-base html --port 8089",
     "build": "webpack -p",
-    "deploy": "cp html/* build/.; scp build/* istrian@vps196831.ovh.net:/var/www/html/elchandaar/character-sheet/."
+    "deploy": "npm run build; cp html/* build/.; scp build/* istrian@vps196831.ovh.net:/var/www/html/elchandaar/character-sheet/."
   },
   "author": "Istrian",
   "license": "CC-BY-NC-4.0",

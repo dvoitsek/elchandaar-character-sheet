@@ -7,6 +7,13 @@ import Traits from './components/Traits';
 import Skills from './components/Skills';
 import Credos from './components/Credos';
 import Backgrounds from './components/Backgrounds';
+import Wounds from './components/Wounds';
+import Fate from './components/Fate';
+import Offense from './components/Offense';
+import Protection from './components/Protection';
+import Ideal from './components/Ideal';
+import Notes from './components/Notes';
+import Biography from './components/Biography';
 
 class CharacterSheet extends React.Component {
   constructor(props) {
@@ -43,17 +50,19 @@ class CharacterSheet extends React.Component {
           <CharacterBasics data={this.state.character.basics} />
           <Traits data={this.state.character.traits} />
           <Skills data={this.state.character.skills} />
+          <Fate data={this.state.character.fate} />
           <Credos data={this.state.character.credos} />
-            <div style={this.fateStyle}>
-              {this.state.character.fate.spent} / {this.state.character.fate.max}
-            </div>
           <Backgrounds data={this.state.character.backgrounds} />
-          <Wounds data={this.state.character.wounds} />
-            <div style={this.defenseStyle}></div>
-            <div style={this.protectionStyle}></div>
-            <div style={this.offenseStyle}></div>
-            <div style={this.idealStyle}></div>
-            <div style={this.notesStyle}></div>
+          <Wounds
+            charstore={this.props.charstore} data={this.state.character.wounds} />
+          <Offense data={this.state.character.offense} />
+          <Protection data={this.state.character.protection} />
+          {this.state.character.ideals.map(function(ideal, index) {
+            return <Ideal data={ideal} key={index}/>;
+          })}
+
+            <Notes data={this.state.character.notes} />
+            <Biography data={this.state.character.biography} />
           </div>
         )
       }
