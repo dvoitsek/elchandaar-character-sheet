@@ -29,19 +29,16 @@ class CharacterSheet extends React.Component {
     };
   }
 
-  generateWoundBoxes() {
-    var wounds = '';
-    for(var i = 0; i < this.state.character.wounds.current; ++i) {
-      wounds += 'x';
-    }
-
-    return (
-      <div>
-        {wounds}
-      </div>);
+    updateCharacter() {
+      this.setState({character: this.props.charstore.getCharacter()});
     }
 
     componentDidMount() {
+      this.props.charstore.addCharacterChangeListener(this.updateCharacter.bind(this));
+    }
+
+    componentWillUnmount() {
+      this.props.charstore.removeCharacterChangeListener(this.updateCharacter.bind(this));
     }
 
     render() {

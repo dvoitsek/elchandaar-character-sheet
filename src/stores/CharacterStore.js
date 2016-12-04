@@ -23,6 +23,26 @@ class CharacterStore extends EventEmitter {
         this.character = action.character;
         this.emit(CharacterEvents.UPDATE);
         break;
+        case Constants.Actions.UPDATE_BASICS:
+        this.character.basics = action.data;
+        this.emit(CharacterEvents.UPDATE);
+        break;
+        case Constants.Actions.ADD_BACKGROUND:
+        this.setBackgroundData(action.index, action.name, action.description);
+        this.emit(CharacterEvents.UPDATE);
+        break;
+        case Constants.Actions.SET_SIMPLE_DATA:
+        this.setSimpleListData(action.list, action.index, action.data);
+        this.emit(CharacterEvents.UPDATE);
+        break;
+        case Constants.Actions.SET_COMBAT_SKILL_RANK:
+        this.setCombatSkillRank(action.index, action.rank);
+        this.emit(CharacterEvents.UPDATE);
+        break;
+        case Constants.Actions.ADD_COMBAT_STYLE:
+        this.addCombatSkill(action.name, action.main, action.off, action.armor, action.rank);
+        this.emit(CharacterEvents.UPDATE);
+        break;
       }
     });
   }
