@@ -28,7 +28,8 @@
     "react-dom": "^15.4.1",
     "style-loader": "git://github.com/webpack/style-loader.git#master",
     "url-loader": "git://github.com/webpack/url-loader.git#master",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "websocket": "^1.0.24"
   },
   "dependencies": {},
   "description": ""

@@ -24,6 +24,11 @@ class CharacterSheet extends React.Component {
       flexDirection: 'column'
     };
 
+    this._characterUpdate = () => {
+      const update = () => this.updateCharacter();
+      return update.apply(this);
+    };
+
     this.state = {
       character: this.props.charstore.getCharacter()
     };
@@ -34,14 +39,17 @@ class CharacterSheet extends React.Component {
     }
 
     componentDidMount() {
-      this.props.charstore.addCharacterChangeListener(this.updateCharacter.bind(this));
+      this.props.charstore.addCharacterChangeListener(this._characterUpdate);
     }
 
     componentWillUnmount() {
-      this.props.charstore.removeCharacterChangeListener(this.updateCharacter.bind(this));
+      this.props.charstore.removeCharacterChangeListener(this._characterUpdate);
     }
 
     render() {
+      if(this.props.charstore.getFile() === null) {
+        return null;
+      }
       return (
         <div className='ui container' style={this.containerStyle}>
           <CharacterBasics data={this.state.character.basics} />

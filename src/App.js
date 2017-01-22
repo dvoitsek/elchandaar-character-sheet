@@ -32,7 +32,7 @@ class App extends React.Component {
         <div style={this.leftBarStyle}>
         <SheetControls charstore={charstore}/>
       </div>
-<div style={this.centerStyle}>
+      <div style={this.centerStyle}>
         <CharacterSheet charstore={charstore}/>
       </div>
       </div>
